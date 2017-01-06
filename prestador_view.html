@@ -1,0 +1,71 @@
+ <!DOCTYPE html>
+<html>
+<head><link rel="stylesheet" href="style.css"></head>
+<body>
+
+<div class="div-wrapper">
+	
+	<h3></h3>
+	<h3 id="pseudoname">PseudoNombre</h3>
+	<h4>
+		<p class="leftAlign" id="name">Nombre</p>
+		<p class="leftAlign" id="lastname">Apellido</p>
+		<p class="leftAlign" id="email">Correo</p>
+	</h4>
+	<img id="imagenPerfil">
+	<p id="description">Texto de introduccion Texto de introduccion Texto de introduccion Texto de introduccion Texto de introduccion Texto de introduccion Texto de introduccion Texto de introduccion Texto de introduccion Texto de introduccion Texto de introduccion Texto de introduccion Texto de introduccion Texto de introduccion Texto de introduccion Texto de introduccion Texto de introduccion Texto de introduccion Texto de introduccion Texto de introduccion Texto de introduccion Texto de introduccion Texto de introduccion Texto de introduccion Texto de introduccion Texto de introduccion Texto de introduccion Texto de introduccion Texto de introduccion Texto de introduccion Texto de introduccion Texto de introduccion Texto de introduccion Texto de introduccion Texto de introduccion Texto de introduccion Texto de introduccion Texto de introduccion Texto de introduccion Texto de introduccion Texto de introduccion Texto de introduccion Texto de introduccion Texto de introduccion Texto de introduccion Texto de introduccion Texto de introduccion Texto de introduccion Texto de introduccion Texto de introduccion Texto de introduccion Texto de introduccion Texto de introduccion Texto de introduccion Texto de introduccion Texto de introduccion Texto de introduccion Texto de introduccion Texto de introduccion Texto de introduccion Texto de introduccion Texto de introduccion Texto de introduccion Texto de introduccion Texto de introduccion Texto de introduccion </p>
+	<p id="tags">Tags, Tags, Tags, Tags, Tags, Tags, Tags, Tags, Tags, Tags, Tags, Tags, Tags, Tags, Tags, Tags, Tags, Tags, Tags, Tags, Tags, Tags, Tags, Tags, Tags, Tags, Tags, Tags, Tags, Tags, Tags, Tags, Tags, Tags, Tags, Tags, Tags, Tags, Tags, Tags, Tags, Tags, Tags, Tags, Tags, Tags, Tags, Tags, Tags, Tags, Tags, Tags, Tags, Tags, Tags, Tags, Tags, Tags, Tags.</p>
+	<div id="video">
+		<iframe id="ytplayer" type="text/html" width="640" height="360"
+		  src="https://www.youtube.com/embed/M7lc1UVf-VE?autoplay=1&origin=http://example.com"
+		  frameborder="0">
+		</iframe>
+	</div>
+</div>
+</body>
+<script>
+
+<?php
+	$servername = "mysql13.000webhost.com";
+	$username = "a4171482_admin";
+	$password = "adminbopo";
+	$dbname = "a4171482_prest";
+	$id=$_GET["id"];
+	
+	$con = mysqli_connect($servername, $username, $password, $dbname);
+	if (!$con) {
+		die('Could not connect: ' . mysqli_error($con));
+	}
+
+	$sql = "SELECT * FROM Prestadores WHERE prestadorId = ".$id;
+	$result = mysqli_query($con, $sql);
+	if (mysqli_num_rows($result) > 0) {
+		// output data of each row
+		while($row = mysqli_fetch_assoc($result)) {
+			echo "var pseudoname='".$row["pseudoname"]."';";
+			echo "var firstname='".$row["firstname"]."';";
+			echo "var lastname='".$row["lastname"]."';";
+			echo "var email='".$row["email"]."';";
+			echo "var description='".$row["description"]."';";
+			echo "var imagenPerfil='".$row["imagenPerfil"]."';";
+		}
+	} else {
+		echo "var pseudoname='error';";
+		echo "var firstname='error';";
+		echo "var lastname='error';";
+		echo "var email='error';";
+		echo "var description='error';";
+		echo "var imagenPerfil='error';";
+	}
+
+	mysqli_close($con);
+	?>
+	
+	document.querySelector("#pseudoname").innerText=pseudoname;
+	document.querySelector("#name").innerText=firstname;
+	document.querySelector("#lastname").innerText=lastname;
+	document.querySelector("#email").innerText=email;
+	document.querySelector("#description").innerText=description;
+	document.querySelector("#imagenPerfil").src=imagenPerfil;
+</script>
+</html>

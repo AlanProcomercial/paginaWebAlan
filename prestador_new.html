@@ -1,0 +1,57 @@
+ <!DOCTYPE html>
+<html>
+<head><link rel="stylesheet" href="style.css"></head>
+<body>
+
+<div class="div-wrapper">
+	
+	<h3></h3>
+	<h3>Pseudo nombre <input  maxlength="30" id="pseudoname" required></input></h3>
+	<h4>
+		<div class="leftAlign">Nombre <input maxlength="30" id="name" required></input></div>
+		<div class="leftAlign">Apellido <input maxlength="30" id="lastname" required></input></div>
+		<div class="leftAlign">Correo . <input maxlength="50" id="email" required></input></div>
+		<div class="leftAlign">Imagen de perfil<input maxlength="255" id="perfil" required></input></div>
+	</h4>
+	<div><p>Descripcion</p><input maxlength="420" size="100" id="description"></input></div>
+	<div><p>tags</p><input id="tags"></input></div>
+	<div id="video">
+		<div style="width:640px;height:360px;background-color:#1d222d;margin-left:25%;">video</div>
+	</div>
+	<p id="msg">texto</p>
+	<button onclick="addPrestador()" type="button_guardar">Guardar Cambios</button> 
+</div>
+</body>
+<script>
+	function addPrestador() {
+		var str="name="+document.querySelector("#name").value
+		+"&lastname="+document.querySelector("#lastname").value
+		+"&pseudoname="+document.querySelector("#pseudoname").value
+		+"&email="+document.querySelector("#email").value
+		+"&perfil="+document.querySelector("#perfil").value
+		+"&description="+document.querySelector("#description").value;
+		if (document.querySelector("#name").value == ""
+		|| document.querySelector("#lastname").value == ""
+		|| document.querySelector("#pseudoname").value == ""
+		|| document.querySelector("#email").value == "") {
+			document.querySelector("#msg").innerText = "faltan datos por ingresar";
+			return;
+		} else {
+			if (window.XMLHttpRequest) {
+				// code for IE7+, Firefox, Chrome, Opera, Safari
+				xmlhttp = new XMLHttpRequest();
+			} else {
+				// code for IE6, IE5
+				xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+			}
+			xmlhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					document.querySelector("#msg").innerHTML = this.responseText;
+				}
+			};
+			xmlhttp.open("GET","addPrestador.php?"+str,true);
+			xmlhttp.send();
+		}
+	}
+</script>
+</html>
