@@ -33,10 +33,11 @@ h4 {
 	height:360px;
 }
 .div_link{
-	cursor:hand;
+	cursor:pointer;
 	float:left;
 }
 .imagen_perfil{
+	cursor:pointer;
 	width:128px;
 	height:128px;
 }

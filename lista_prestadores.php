@@ -14,15 +14,15 @@
 		die('Could not connect: ' . mysqli_error($con));
 	}
 
-	$sql = "SELECT * FROM Prestadores";
+	$sql = "SELECT * FROM Prestadores WHERE hide != 1";
 	$result = mysqli_query($con, $sql);
 	echo "encontrado ". mysqli_num_rows($result) . " resultados";
 	if (mysqli_num_rows($result) > 0) {
 		// output data of each row
 		while($row = mysqli_fetch_assoc($result)) {
 			echo "<div class='div-wrapper'>";
-			echo "<img style='float:left' src ='". $row["imagenPerfil"]. "' class='imagen_perfil'>";
-			echo "<div onClick='GoToWebView(". $row["prestadorId"] .")' class='div_link'>";
+			echo "<img style='float:left' src ='". $row["imagenPerfil"]. "' onClick={GoToWebView('". $row["pseudoname"] ."')} class='imagen_perfil'>";
+			echo "<div onClick={GoToWebView('". $row["pseudoname"] ."')} class='div_link'>";
 			echo '<p class="boxed" id="pseudoname">';
 			echo $row["pseudoname"];
 			echo "</p>";
@@ -41,8 +41,9 @@
 </div>
 </body>
 <script>
+var url="prestador_view.html";
 function GoToWebView(id){
-	window.location.href="prestador_view.html?id="+id;
+	window.location.href=url+"?id="+id;
 }
 </script>
 </html>

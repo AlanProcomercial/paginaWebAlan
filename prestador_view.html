@@ -37,7 +37,7 @@
 		die('Could not connect: ' . mysqli_error($con));
 	}
 
-	$sql = "SELECT * FROM Prestadores WHERE prestadorId = ".$id;
+	$sql = "SELECT * FROM Prestadores WHERE pseudoname = '".$id . "' ";
 	$result = mysqli_query($con, $sql);
 	if (mysqli_num_rows($result) > 0) {
 		// output data of each row

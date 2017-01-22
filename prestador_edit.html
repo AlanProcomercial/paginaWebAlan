@@ -1,0 +1,108 @@
+ <!DOCTYPE html>
+<html>
+<head><link rel="stylesheet" href="style.css"></head>
+<body>
+
+<div class="div-wrapper">
+	
+	<h3></h3>
+	<h3 id="pseudoname">PseudoNombre</h3>
+	<h4>
+		<div class="leftAlign">Nombre <input maxlength="30" id="name" required></input></div>
+		<div class="leftAlign">Apellido <input maxlength="30" id="lastname" required></input></div>
+		<div class="leftAlign">Correo . <input maxlength="50" id="email" required></input></div>
+		<div class="leftAlign">Ocultar de la busqueda<input id="hide" type="checkbox" ></div>
+		<div class="leftAlign">Imagen de perfil<input maxlength="255" id="perfil" required></input></div>
+	</h4>
+	<div><p>Descripcion</p><input maxlength="420" size="100" id="description"></input></div>
+	<div><p>tags</p><input id="tags"></input></div>
+	<div id="video">
+		<div style="width:640px;height:360px;background-color:#1d222d;margin-left:25%;">video</div>
+	</div>
+	<p id="msg">texto</p>
+	<button onclick="addPrestador()" type="button_guardar">Guardar Cambios</button> 
+</div>
+</body>
+<script>
+
+<?php
+	$servername = "mysql13.000webhost.com";
+	$username = "a4171482_admin";
+	$password = "adminbopo";
+	$dbname = "a4171482_prest";
+	$id=$_GET["id"];
+	
+	$con = mysqli_connect($servername, $username, $password, $dbname);
+	if (!$con) {
+		die('Could not connect: ' . mysqli_error($con));
+	}
+
+	$sql = "SELECT * FROM Prestadores WHERE pseudoname = '".$id . "' ";
+	$result = mysqli_query($con, $sql);
+	if (mysqli_num_rows($result) > 0) {
+		// output data of each row
+		while($row = mysqli_fetch_assoc($result)) {
+			echo "var pseudoname='".$row["pseudoname"]."';";
+			echo "var firstname='".$row["firstname"]."';";
+			echo "var lastname='".$row["lastname"]."';";
+			echo "var email='".$row["email"]."';";
+			echo "var description='".$row["description"]."';";
+			echo "var imagenPerfil='".$row["imagenPerfil"]."';";
+			echo "var hide='".$row["hide"]."';";
+		}
+	} else {
+		echo "var pseudoname='error';";
+		echo "var firstname='error';";
+		echo "var lastname='error';";
+		echo "var email='error';";
+		echo "var description='error';";
+		echo "var imagenPerfil='error';";
+		echo "var hide='error';";
+	}
+
+	mysqli_close($con);
+	?>
+	
+	document.querySelector("#pseudoname").innerHTML=pseudoname;
+	document.querySelector("#name").value=firstname;
+	document.querySelector("#lastname").value=lastname;
+	document.querySelector("#email").value=email;
+	document.querySelector("#description").value=description;
+	document.querySelector("#perfil").value=imagenPerfil;
+	if(hide==0)document.querySelector("#hide").checked=false;
+	else document.querySelector("#hide").checked=true;
+</script>
+<script>
+	function addPrestador() {
+		var str="name="+document.querySelector("#name").value
+		+"&lastname="+document.querySelector("#lastname").value
+		+"&pseudoname="+document.querySelector("#pseudoname").innerHTML
+		+"&email="+document.querySelector("#email").value
+		+"&perfil="+document.querySelector("#perfil").value
+		+"&hide="+document.querySelector("#hide").checked
+		+"&description="+document.querySelector("#description").value;
+		if (document.querySelector("#name").value == ""
+		|| document.querySelector("#lastname").value == ""
+		|| document.querySelector("#pseudoname").value == ""
+		|| document.querySelector("#email").value == "") {
+			document.querySelector("#msg").innerText = "faltan datos por ingresar";
+			return;
+		} else {
+			if (window.XMLHttpRequest) {
+				// code for IE7+, Firefox, Chrome, Opera, Safari
+				xmlhttp = new XMLHttpRequest();
+			} else {
+				// code for IE6, IE5
+				xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+			}
+			xmlhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					document.querySelector("#msg").innerHTML = this.responseText;
+				}
+			};
+			xmlhttp.open("GET","changePrestador.php?"+str,true);
+			xmlhttp.send();
+		}
+	}
+</script>
+</html>
